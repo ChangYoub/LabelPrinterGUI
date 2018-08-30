@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/Icon/minus_icon.png</file>
+        <file>Resources/Icon/x_mark_icon.png</file>
+        <file>Resources/Icon/program_icon.png</file>
+        <file>Resources/Icon/printer_icon.png</file>
+        <file>Resources/Icon/printer_hover_icon.png</file>
+        <file>Resources/Icon/down_arrow_hover_icon.png</file>
+        <file>Resources/Icon/down_arrow_icon.png</file>
+        <file>Resources/Icon/up_arrow_hover_icon.png</file>
+        <file>Resources/Icon/up_arrow_icon.png</file>
+    </qresource>
+</RCC>

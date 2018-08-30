@@ -1,0 +1,120 @@
+#ifndef STYLESHEET_H
+#define STYLESHEET_H
+
+#define DEFAULT_QSS \
+"QWidget {"\
+    "background: transparent;"\
+"}"
+
+#define SYSTEM_MENU_QSS \
+"QWidget {"\
+    "background-color: #0747a6;"\
+    "border: none;"\
+    "border-left: 1px solid #5c7790;"\
+    "border-right: 1px solid #5c7790;"\
+    "border-top: 1px solid #5c7790;"\
+"}"
+
+#define SYSTEM_MENU_BTN_QSS \
+"QPushButton {"\
+    "border: none;"\
+    "background-color: #0747a6;"\
+"}"\
+"QPushButton:hover {"\
+    "background-color: #0078d7;"\
+"}"
+
+#define SYSTEM_MENU_QUIT_BTN_QSS    \
+"QPushButton {"\
+    "border: none;"\
+    "background-color: #0747a6;"\
+"}"\
+"QPushButton:hover {"\
+    "background-color: #e81123;"\
+"}"
+
+#define LABEL_LOGO_ICON \
+"QLabel{"\
+    "image: url(\":/Resources/Icon/program_icon.png\");"\
+    "border: none;"\
+"}"
+
+#define STACK_WIDGET    \
+"QStackedWidget {"\
+    "border-bottom: 1px solid #5c7790;"\
+    "border-left: 1px solid #5c7790;"\
+    "border-right: 1px solid #5c7790;"\
+    "background-color: white;"\
+"}"
+
+#define WORK_AREA   \
+"QWidget {"\
+    "background: transparent;"\
+"}"
+
+#define BTN_AREA_WIDGET \
+"QWidget {"\
+    "background-color: #f4f5f7;"\
+    "border-bottom: 1px solid #CCCCCC;"\
+    "border-left: 1px solid #5c7790;"\
+    "border-right: 1px solid #5c7790;"\
+"}"
+
+#define PRINTER_BTN_ICON    \
+"QPushButton{"\
+    "image: url(\":/Resources/Icon/printer_icon.png\");"\
+    "padding-bottom: 5px;"\
+    "border: none;"\
+    "border-bottom: 2px solid #f4f5f7;"\
+    "background: transparent;"\
+    "text-align: bottom;"\
+    "color: #707070;"\
+    "font-size: 8pt;"\
+"}" \
+"QPushButton:hover {"\
+    "background-color: #dbdbdb;"\
+    "border-bottom: 2px solid #dbdbdb;"\
+"}"\
+"QPushButton:pressed {"\
+    "image: url(\":/Resources/Icon/printer_hover_icon.png\");"\
+    "border-bottom: 2px solid #0747a6;"\
+    "color: #268ffb;"\
+"}"
+
+#define TABLE_LABEL \
+"QLabel {"\
+    "background-color: white;"\
+    "border: 1px solid black;"\
+"}"
+
+#define TABLE   \
+"QTableWidget {"\
+    "background-color: white;"\
+    "border: none;"\
+    "border-top: 1px solid #CCCCCC;"\
+"}"\
+"QTableView::item {"\
+    "selection-background-color: white;"\
+    "color: black;"\
+    "border: none;"\
+    "border-bottom: 1px solid #CCCCCC;"\
+    "border-left: 1px solid #CCCCCC;"\
+    "border-right: 1px solid #CCCCCC;"\
+"}"\
+"QTableView::item:selected {"\
+    "background-color: #F3BD04;"\
+    "color: white;"\
+"}"\
+"QTableView::item:hover {"\
+    "background-color: #F3BD04;"\
+    "color: white;"\
+"}"\
+"QLineEdit {"\
+    "background-color: white;"\
+    "font: bold;"\
+    "selection-background-color: #F3BD04;"\
+    "selection-color: black;"\
+"}"
+
+//    "qproperty-iconSize: 20px 20px;"
+#endif // STYLESHEET_H

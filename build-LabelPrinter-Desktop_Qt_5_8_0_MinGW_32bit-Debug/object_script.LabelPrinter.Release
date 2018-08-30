@@ -1,0 +1,14 @@
+INPUT(
+./release\main.o
+./release\mainwindow.o
+./release\worksheet.o
+./release\printer.o
+./release\correctiondialog.o
+./release\xml.o
+./release\qrc_resources.o
+./release\moc_mainwindow.o
+./release\moc_worksheet.o
+./release\moc_printer.o
+./release\moc_correctiondialog.o
+./release\moc_xml.o
+);
