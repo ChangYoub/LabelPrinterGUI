@@ -6,13 +6,16 @@
 #define MAIN_WINDOW_SIZE            QSize(570, 420)
 #define MAIN_MIN_SIZE               QSize(210, 200)
 #define MENU_BAR_HEIGHT             30
+#define MENU_BAR_HLAYOUT_MARGINS    QMargins(10, 0, 0, 0)
 
 #define MINUS_ICON_PATH             QIcon(":/Resources/Icon/minus_icon.png/")
 
 #define CORRE_MENU_TEXT             "위치보정(&C)"
 #define SAVE_MENU_TEXT              "저장(&S)"
+#define VER_MENU_TEXT               "버전(&V)"
 #define MENU_ACTION_CORRE_TEXT      "보정(&C)..."
 #define MENU_ACTION_SAVE_TEXT       "저장(&S)..."
+#define MENU_ACTION_VER_TEXT        "버전(&V)..."
 #define SYSTEM_BAR_LOGO_LABLE_TEXT  "Layer System"
 
 class QPushButton;
@@ -44,21 +47,24 @@ private:
 private:
     QWidget *m_pSysTemWidget;
     QWidget *m_pMeunBarWidget;
-    QStackedWidget *m_pStackWidget;
-    QMenuBar *m_pMenuBar;
-    QAction *m_pSlotCorre;
-    QAction *m_pSlotSave;
+    QStackedWidget *m_pStackWidget;    
+    QWidget *m_pBlindWidget;
 
 private:
     void setWindoswSize(void);
     void setSystemMenu(void);
     void setMenuBarWidget(void);
+    void widgetBlind(const bool state);
 
 private Q_SLOTS:
     void slotCorreAction(void);
     void slotSaveAction(void);
+    void slotVerAction(void);
+    void slotBlindOn(void);
+    void slotBlindOff(void);
 
 protected:
+    virtual void keyPressEvent(QKeyEvent *);
     virtual void mouseMoveEvent(QMouseEvent *);
     virtual void mouseReleaseEvent(QMouseEvent *);
     virtual void mousePressEvent(QMouseEvent *);

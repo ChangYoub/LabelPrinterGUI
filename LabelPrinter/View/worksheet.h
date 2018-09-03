@@ -6,7 +6,7 @@
 #define BTN_AREA_HEIGHT             60
 #define PRINTER_BTN_SIZE            QSize(90, 59)
 #define PRINTER_BTN_TEXT            QString("Printer")
-#define PRINTER_BTN_TOOLTIP         "Ctrl+p"
+#define PRINTER_BTN_TOOLTIP         "Ctrl+P"
 #define BTN_AREA_MARGIN             QMargins(1, 0, 1, 0)
 
 #define LABEL_TABLE_SIZE            QSize(420, 200)
@@ -27,14 +27,22 @@
 #define TABLE_TITLE5_LABEL_TEXT     QString(FONT_TAG_START+"S/N"+FONT_TAG_END)
 #define TABLE_LABEL_MARGINS         QMargins(0, 3, 0, 0)
 #define TIP_LABEL_TEXT              "※ 주의)  입력하는 텍스트 길이가 길 경우 인쇄물의 텍스트가 잘릴 수 있습니다."
+#define PRINTER_OK_MSG              "인쇄 완료! 결과물을 확인하세요."
+#define PRINTER_ERROR_MSG           "(ERROR) 프린터 연결을 확인하세요."
 
 class QTableWidget;
+class QPushButton;
+class SuccessDialog;
 
 class Worksheet : public QWidget
 {
     Q_OBJECT
 public:
     explicit Worksheet(QWidget *parent = 0);
+
+public:
+    QPushButton *m_pPrinterBtn;
+    SuccessDialog *m_pSuccessDialog;
 
 public:
     void reSizeView(const int, const int);
@@ -52,7 +60,7 @@ private:
     void setTableLayout(void);
     void setTable(const QString, const QString, const QString, const QString, const QString, const QString);
 
-private Q_SLOTS:
+public Q_SLOTS:
     void slotPrintBtnClick(void);
 
 protected:

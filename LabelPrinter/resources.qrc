@@ -9,5 +9,9 @@
         <file>Resources/Icon/down_arrow_icon.png</file>
         <file>Resources/Icon/up_arrow_hover_icon.png</file>
         <file>Resources/Icon/up_arrow_icon.png</file>
+        <file>Resources/Icon/zebra_icon.ico</file>
+        <file>Resources/Pattern/blind.png</file>
+        <file>Resources/Icon/ok_icon.png</file>
+        <file>Resources/Icon/warning_icon.png</file>
     </qresource>
 </RCC>

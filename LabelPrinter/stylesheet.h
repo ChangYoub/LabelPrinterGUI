@@ -162,12 +162,12 @@
     "color: #707070;"\
 "}"
 
-#define CORRECT_DIALOG_QSS  \
+#define DIALOG_QSS  \
 "QDialog {"\
     "background-color: white;"\
 "}"
 
-#define CORRECT_DIALOG_WIDGET_QSS   \
+#define DIALOG_WIDGET_QSS   \
 "QWidget {"\
     "border: 1px solid #5c7790;"\
     " border-top: none;"\
@@ -215,7 +215,7 @@
     "image: url(\":/Resources/Icon/up_arrow_hover_icon.png\");"\
 "}"
 
-#define DIALOG_SAVE_BTN_QSS \
+#define DIALOG_BTN_QSS \
 "QPushButton {"\
     "font-weight: bold;"\
     "border:1px solid #707070;"\
@@ -224,6 +224,46 @@
 "QPushButton:hover {"\
     "background-color: #BEE6FD;"\
     "border:1px solid #3C7FB1;"\
+"}"
+
+#define VER_DIALOG_TITLE_LABEL_QSS  \
+"QLabel {"\
+    "background: transparent; "\
+    "border: none;"\
+    "font-weight: bold;"\
+    "color: #707070;"\
+"}"
+
+#define VER_DIALOG_MSG_LABEL_QSS    \
+"QLabel {"\
+    "background-color: #eeeeee;"\
+    "border: none;"\
+    "color: #707070;"\
+"}"
+
+#define STYLESHEET_BLIND_WIDGET \
+"QWidget{"\
+    "background-image: url(\":/Resources/Pattern/blind.png\");"\
+"}"
+
+#define OK_ICON_LABEL   \
+"QLabel {"\
+    "border: none;"\
+    "background: transparent;"\
+    "image: url(\":/Resources/Icon/ok_icon.png\");"\
+"}"
+
+#define WARNING_ICON_LABEL   \
+"QLabel {"\
+    "border: none;"\
+    "background: transparent;"\
+    "image: url(\":/Resources/Icon/warning_icon.png\");"\
+"}"
+
+#define MSG_LABEL_QSS   \
+"QLabel {"\
+    "border: none;"\
+    "color: #707070;"\
 "}"
 
 #endif // STYLESHEET_H

@@ -32,8 +32,7 @@ private:
     void setSystemMenu(void);
     void setWorkSheet(void);
 
-private:
-    QWidget *m_pSysTemWidget;
+private:    
     QSpinBox *m_pXPosVal;
     QSpinBox *m_pYPosVal;
 

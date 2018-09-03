@@ -9,17 +9,14 @@
 #include <QSpinBox>
 #include <QCoreApplication>
 
-#include <QDebug>
-
 Q_GLOBAL_STATIC(CorrectionDialog, _CorrectionDialog)
-
 
 CorrectionDialog::CorrectionDialog(QWidget *parent) : QDialog(parent)
 {
     this->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);
     this->setModal(true);
     this->setFixedSize(CORRECT_DIALOG_SIZE);
-    this->setStyleSheet(CORRECT_DIALOG_QSS);
+    this->setStyleSheet(DIALOG_QSS);
     setSystemMenu();
     setWorkSheet();
 }
@@ -33,20 +30,20 @@ CorrectionDialog *CorrectionDialog::getInstance(void)
 void CorrectionDialog::setSystemMenu(void)
 {
     /* 상단 시스템 메뉴 바 위젯 */
-    m_pSysTemWidget = new QWidget(this);
-    m_pSysTemWidget->resize(QSize(this->width(), SYSTEM_BAR_HEIGHT));
-    m_pSysTemWidget->setStyleSheet(SYSTEM_MENU_QSS);
+    QWidget *pSysTemWidget = new QWidget(this);
+    pSysTemWidget->resize(QSize(this->width(), SYSTEM_BAR_HEIGHT));
+    pSysTemWidget->setStyleSheet(SYSTEM_MENU_QSS);
 
     /* 왼쪽 상단 회사로고 아이콘 */
-    QLabel *pLogoIcon = new QLabel(m_pSysTemWidget);
+    QLabel *pLogoIcon = new QLabel(pSysTemWidget);
     pLogoIcon->setFixedWidth(LOGO_ICON_WIDTH);
     pLogoIcon->setStyleSheet(LABEL_LOGO_ICON_QSS);
 
-    QLabel *pTitleText = new QLabel(CORRECT_DIALOG_TITLE_TEXT, m_pSysTemWidget);
+    QLabel *pTitleText = new QLabel(CORRECT_DIALOG_TITLE_TEXT, pSysTemWidget);
     pTitleText->setStyleSheet(LABEL_TITLE_TEXT_QSS);
 
     /* 프로그램 종료 버튼 */
-    QPushButton *pQuitBtn = new QPushButton(m_pSysTemWidget);
+    QPushButton *pQuitBtn = new QPushButton(pSysTemWidget);
     pQuitBtn->setFocusPolicy(Qt::NoFocus);
     pQuitBtn->setFixedSize(SYSTEM_BAR_BTN_SIZE);
     pQuitBtn->setIcon(X_MARK_ICON_PATH);
@@ -62,7 +59,7 @@ void CorrectionDialog::setSystemMenu(void)
     pSysTemLayout->addSpacing(7);
     pSysTemLayout->addWidget(pTitleText, 1, Qt::AlignLeft);
     pSysTemLayout->addWidget(pQuitBtn);
-    m_pSysTemWidget->setLayout(pSysTemLayout);
+    pSysTemWidget->setLayout(pSysTemLayout);
 
     QObject::connect(pQuitBtn, SIGNAL(clicked()), this, SLOT(close()));
 }
@@ -71,7 +68,7 @@ void CorrectionDialog::setWorkSheet(void)
 {
     QWidget *worksheet = new QWidget(this);
     worksheet->setGeometry(this->x(), SYSTEM_BAR_HEIGHT, this->width(), this->height()-SYSTEM_BAR_HEIGHT);
-    worksheet->setStyleSheet(CORRECT_DIALOG_WIDGET_QSS);
+    worksheet->setStyleSheet(DIALOG_WIDGET_QSS);
 
     QLabel *xText = new QLabel(this);
     xText->setText(X_POS_TITLE_TEXT);
@@ -99,8 +96,10 @@ void CorrectionDialog::setWorkSheet(void)
     pGridLayout->addWidget(m_pYPosVal, 1, 1);
 
     QPushButton *pSaveBtn = new QPushButton(CORRECT_DIALOG_SAVE_BTN_TEXT, this);
+    pSaveBtn->setFocusPolicy(Qt::NoFocus);
+    pSaveBtn->setCursor(Qt::PointingHandCursor);
     pSaveBtn->setFixedSize(POS_VALUE_SAVE_BTN_SIZE);
-    pSaveBtn->setStyleSheet(DIALOG_SAVE_BTN_QSS);
+    pSaveBtn->setStyleSheet(DIALOG_BTN_QSS);
 
     QVBoxLayout *pVLayout = new QVBoxLayout(this);
     pVLayout->setContentsMargins(CORRECT_DIALOG_VLAYOUT_MARGINS);

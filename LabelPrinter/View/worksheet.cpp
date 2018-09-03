@@ -4,14 +4,14 @@
 #include "Component/Printer/printer.h"
 #include "Component/Xml/xml.h"
 #include "View/Dialog/correctiondialog.h"
+#include "View/Dialog/successdialog.h"
 #include <QPushButton>
 #include <QBoxLayout>
 #include <QTableWidget>
 #include <QHeaderView>
 #include <QKeyEvent>
 #include <QLabel>
-
-#include <QDebug>
+#include <QMainWindow>
 
 Worksheet::Worksheet(QWidget *parent):QWidget(parent)
 {
@@ -26,6 +26,8 @@ Worksheet::Worksheet(QWidget *parent):QWidget(parent)
         }
     }
     setTable(strList[0], strList[1], strList[2], strList[3], strList[4], strList[5]);
+
+    m_pSuccessDialog = new SuccessDialog(this);
 }
 
 void Worksheet::setBtnLayout(void)
@@ -33,21 +35,21 @@ void Worksheet::setBtnLayout(void)
     m_btnArea = new QWidget(this);
     m_btnArea->setStyleSheet(BTN_AREA_WIDGET_QSS);
 
-    QPushButton *printerBtn = new QPushButton(this);
-    printerBtn->setFixedSize(PRINTER_BTN_SIZE);
-    printerBtn->setCursor(Qt::PointingHandCursor);
-    printerBtn->setFocusPolicy(Qt::NoFocus);
-    printerBtn->setText(PRINTER_BTN_TEXT);
-    printerBtn->setToolTip(PRINTER_BTN_TOOLTIP);
-    printerBtn->setStyleSheet(PRINTER_BTN_ICON_QSS);
+    m_pPrinterBtn = new QPushButton(this);
+    m_pPrinterBtn->setFixedSize(PRINTER_BTN_SIZE);
+    m_pPrinterBtn->setCursor(Qt::PointingHandCursor);
+    m_pPrinterBtn->setFocusPolicy(Qt::NoFocus);
+    m_pPrinterBtn->setText(PRINTER_BTN_TEXT);
+    m_pPrinterBtn->setToolTip(PRINTER_BTN_TOOLTIP);
+    m_pPrinterBtn->setStyleSheet(PRINTER_BTN_ICON_QSS);
 
     QHBoxLayout *hLayout = new QHBoxLayout;
     hLayout->setContentsMargins(BTN_AREA_MARGIN);
     hLayout->setAlignment(Qt::AlignRight);
-    hLayout->addWidget(printerBtn);
+    hLayout->addWidget(m_pPrinterBtn);
     m_btnArea->setLayout(hLayout);
 
-    QObject::connect(printerBtn,  SIGNAL(clicked()), this, SLOT(slotPrintBtnClick()));
+    QObject::connect(m_pPrinterBtn,  SIGNAL(clicked()), this, SLOT(slotPrintBtnClick()));
 }
 
 void Worksheet::setTableLayout(void)
@@ -59,7 +61,7 @@ void Worksheet::setTableLayout(void)
     m_pLabelTable = new QTableWidget(m_tableArea);
     m_pLabelTable->setFixedSize(LABEL_TABLE_SIZE);
     m_pLabelTable->setRowCount(TABLE_ROW_MAX);
-    m_pLabelTable->setColumnCount(4);
+    m_pLabelTable->setColumnCount(TABLE_COLUMN_MAX);
     m_pLabelTable->horizontalHeader()->hide();
     m_pLabelTable->verticalHeader()->hide();
     m_pLabelTable->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -274,14 +276,30 @@ void Worksheet::slotPrintBtnClick(void)
     Printer::getInstance()->setRowText(m_pLabelTable->item(3, 2)->text(),Printer::BARCODE_ROW4_TEXT);
     Printer::getInstance()->setRowText(m_pLabelTable->item(4, 1)->text(),Printer::BARCODE_ROW5_TEXT);
     Printer::getInstance()->setRowText(m_pLabelTable->item(4, 3)->text(),Printer::BARCODE_ROW6_TEXT);
-    qDebug() << CorrectionDialog::getInstance()->getPosX();
-    qDebug() << CorrectionDialog::getInstance()->getPosY();
+    int x = CorrectionDialog::getInstance()->getPosX();
+    int y =  CorrectionDialog::getInstance()->getPosY();
+
+    bool state = Printer::getInstance()->printStart(x, y);
+    int centerX = this->topLevelWidget()->geometry().center().x() - (m_pSuccessDialog->width()/2);
+    int centerY = this->topLevelWidget()->geometry().center().y() - (m_pSuccessDialog->height()/2);
+    m_pSuccessDialog->move(centerX, centerY);
+
+    if(state == true) {
+        m_pSuccessDialog->setIcon(true);
+        m_pSuccessDialog->setMsg(PRINTER_OK_MSG);
+    }
+    else {
+        m_pSuccessDialog->setIcon(false);
+        m_pSuccessDialog->setMsg(PRINTER_ERROR_MSG);
+    }
+    m_pSuccessDialog->show();
 }
 
 void Worksheet::keyPressEvent(QKeyEvent *event)
 {
     if(event->modifiers() == Qt::ControlModifier && event->key() == Qt::Key_P)
     {
-        emit slotPrintBtnClick();
+        clearTableFocus();
+        m_pPrinterBtn->click();
     }
 }

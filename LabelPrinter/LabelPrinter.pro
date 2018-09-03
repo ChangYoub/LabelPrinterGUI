@@ -6,14 +6,13 @@
 
 QT       += core gui    \
             printsupport \
-            axcontainer  \
             xml \
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 LIBS += C:\Qt\Tools\mingw530_32\i686-w64-mingw32\lib\libwinspool.a \
 
-TARGET = LabelPrinter
+TARGET = ZebraPrinter
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -33,8 +32,10 @@ SOURCES += \
         mainwindow.cpp \
         View/worksheet.cpp \
         Component/Printer/printer.cpp \
-    View/Dialog/correctiondialog.cpp \
-    Component/Xml/xml.cpp
+        View/Dialog/correctiondialog.cpp \
+        Component/Xml/xml.cpp \
+        View/Dialog/verdialog.cpp \
+        View/Dialog/successdialog.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -42,8 +43,12 @@ HEADERS += \
         global.h \
         View/worksheet.h \
         Component/Printer/printer.h \
-    View/Dialog/correctiondialog.h \
-    Component/Xml/xml.h
+        View/Dialog/correctiondialog.h \
+        Component/Xml/xml.h \
+        View/Dialog/verdialog.h \
+        View/Dialog/successdialog.h
+
+win32:RC_FILE += label.rc
 
 RESOURCES += \
     resources.qrc

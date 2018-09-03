@@ -3,7 +3,10 @@
 #include "stylesheet.h"
 #include "View/worksheet.h"
 #include "View/Dialog/correctiondialog.h"
+#include "View/Dialog/verdialog.h"
+#include "View/Dialog/successdialog.h"
 #include "Component/Xml/xml.h"
+
 #include <QPushButton>
 #include <QLabel>
 #include <QBoxLayout>
@@ -14,8 +17,7 @@
 #include <QStackedWidget>
 #include <QAction>
 #include <QMenuBar>
-
-#include <QDebug>
+#include <QGraphicsOpacityEffect>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -33,6 +35,9 @@ MainWindow::MainWindow(QWidget *parent)
     m_pStackWidget->setGeometry(this->x(), (SYSTEM_BAR_HEIGHT+MENU_BAR_HEIGHT), this->width(), this->height() - (SYSTEM_BAR_HEIGHT+MENU_BAR_HEIGHT));
     m_pStackWidget->addWidget(m_worksheet);
     m_pStackWidget->setStyleSheet(STACK_WIDGET_QSS);
+
+    QObject::connect(m_worksheet->m_pPrinterBtn, SIGNAL(clicked()), this, SLOT(slotBlindOn()));
+    QObject::connect(m_worksheet->m_pSuccessDialog->m_pOkBtn, SIGNAL(clicked()), this, SLOT(slotBlindOff()));
 }
 
 MainWindow::~MainWindow() {
@@ -89,44 +94,54 @@ void MainWindow::setSystemMenu(void)
     m_pSysTemWidget->setLayout(pSysTemLayout);
 
     QObject::connect(pMinWindowBtn, SIGNAL(clicked()), this, SLOT(showMinimized()));
-    QObject::connect(pQuitBtn, SIGNAL(clicked()), qApp, SLOT(quit()));
+    QObject::connect(pQuitBtn, SIGNAL(clicked()), qApp, SLOT(quit()));    
 }
 
 void MainWindow::setMenuBarWidget(void)
 {
     m_pMeunBarWidget = new QWidget(this);
-    m_pMeunBarWidget->setGeometry(0, MENU_BAR_HEIGHT,this->width(), MENU_BAR_HEIGHT);
+    m_pMeunBarWidget->setGeometry(0, MENU_BAR_HEIGHT, this->width(), MENU_BAR_HEIGHT);
     m_pMeunBarWidget->setStyleSheet(SYSTEM_MENU_BAR_QSS);
 
-    m_pMenuBar = new QMenuBar;
-    m_pMenuBar->setStyleSheet(MENU_BAR_QSS);
+    QMenuBar *pMenuBar = new QMenuBar;
+    pMenuBar->setStyleSheet(MENU_BAR_QSS);
 
-    QMenu *pCorretionMenu = new QMenu(CORRE_MENU_TEXT, m_pMenuBar);
+    QMenu *pCorretionMenu = new QMenu(CORRE_MENU_TEXT, pMenuBar);
     pCorretionMenu->setFocusPolicy(Qt::NoFocus);
     pCorretionMenu->setStyleSheet(MENU_ITEM_QSS);
 
-    m_pSlotCorre = new QAction(MENU_ACTION_CORRE_TEXT, this);
-    m_pSlotCorre->setShortcut(QKeySequence::Copy);
-    pCorretionMenu->addAction(m_pSlotCorre);
+    QAction *pSlotCorre = new QAction(MENU_ACTION_CORRE_TEXT, this);
+    pSlotCorre->setShortcut(QKeySequence::Copy);
+    pCorretionMenu->addAction(pSlotCorre);
 
-    QMenu *pSaveMenu = new QMenu(SAVE_MENU_TEXT, m_pMenuBar);
+    QMenu *pSaveMenu = new QMenu(SAVE_MENU_TEXT, pMenuBar);
     pSaveMenu->setFocusPolicy(Qt::NoFocus);
     pSaveMenu->setStyleSheet(MENU_ITEM_QSS);
 
-    m_pSlotSave = new QAction(MENU_ACTION_SAVE_TEXT, this);
-    m_pSlotSave->setShortcut(QKeySequence::Save);
-    pSaveMenu->addAction(m_pSlotSave);
+    QAction *pSlotSave = new QAction(MENU_ACTION_SAVE_TEXT, this);
+    pSlotSave->setShortcut(QKeySequence::Save);
+    pSaveMenu->addAction(pSlotSave);
 
-    m_pMenuBar->addMenu(pCorretionMenu);
-    m_pMenuBar->addMenu(pSaveMenu);
+    QMenu *pVerMenu = new QMenu(VER_MENU_TEXT, pMenuBar);
+    pVerMenu->setFocusPolicy(Qt::NoFocus);
+    pVerMenu->setStyleSheet(MENU_ITEM_QSS);
+
+    QAction *pSlotVer = new QAction(MENU_ACTION_VER_TEXT, this);
+    pSlotVer->setShortcut(QKeySequence::Paste);
+    pVerMenu->addAction(pSlotVer);
+
+    pMenuBar->addMenu(pCorretionMenu);
+    pMenuBar->addMenu(pSaveMenu);
+    pMenuBar->addMenu(pVerMenu);
 
     QHBoxLayout *pHLayout = new QHBoxLayout(m_pMeunBarWidget);
-    pHLayout->setContentsMargins(QMargins(10, 0, 0, 0));
-    pHLayout->addWidget(m_pMenuBar, 0, Qt::AlignLeft|Qt::AlignVCenter);
+    pHLayout->setContentsMargins(MENU_BAR_HLAYOUT_MARGINS);
+    pHLayout->addWidget(pMenuBar, 0, Qt::AlignLeft|Qt::AlignVCenter);
     m_pMeunBarWidget->setLayout(pHLayout);
 
-    QObject::connect(m_pSlotCorre, SIGNAL(triggered()), this, SLOT(slotCorreAction()));
-    QObject::connect(m_pSlotSave, SIGNAL(triggered()), this, SLOT(slotSaveAction()));
+    QObject::connect(pSlotCorre, SIGNAL(triggered()), this, SLOT(slotCorreAction()));
+    QObject::connect(pSlotSave, SIGNAL(triggered()), this, SLOT(slotSaveAction()));
+    QObject::connect(pSlotVer, SIGNAL(triggered()), this, SLOT(slotVerAction()));
 }
 
 void MainWindow::slotCorreAction(void)
@@ -135,6 +150,33 @@ void MainWindow::slotCorreAction(void)
     int centerY = this->geometry().center().y() - (m_pCorreDialog->height()/2);
     CorrectionDialog::getInstance()->move(centerX, centerY);
     CorrectionDialog::getInstance()->show();
+}
+
+void MainWindow::widgetBlind(const bool state)
+{
+    /* 메인윈도우 블라인드 효과 */
+    QGraphicsOpacityEffect *opa = new QGraphicsOpacityEffect(this);
+    opa->setOpacity(0.6);   /* 투명도 설정 */
+
+    m_pBlindWidget->setGraphicsEffect(opa);
+    m_pBlindWidget->setStyleSheet(STYLESHEET_BLIND_WIDGET);
+    m_pBlindWidget->setFixedSize(this->size());
+
+    if(state == true)
+        m_pBlindWidget->show();
+    else
+        m_pBlindWidget->hide();
+}
+
+void MainWindow::slotBlindOn(void)
+{
+    m_pBlindWidget = new QWidget(this);
+    widgetBlind(true);
+}
+
+void MainWindow::slotBlindOff(void)
+{
+    widgetBlind(false);
 }
 
 void MainWindow::slotSaveAction(void)
@@ -154,6 +196,24 @@ void MainWindow::slotSaveAction(void)
 
     Xml::getInstance()->writeXmlTableText(tableText);
 }
+
+void MainWindow::slotVerAction(void)
+{
+    VerDialog *pVerDialog = new VerDialog(this);
+    int centerX = this->geometry().center().x() - (pVerDialog->width()/2);
+    int centerY = this->geometry().center().y() - (pVerDialog->height()/2);
+    pVerDialog->move(centerX, centerY);
+    pVerDialog->show();
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    if(event->modifiers() == Qt::ControlModifier && event->key() == Qt::Key_P)
+    {
+        m_worksheet->m_pPrinterBtn->click();
+    }
+}
+
 /*!
  * \brief MainWindow::resizeEvent
  * \param event
@@ -265,3 +325,4 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *event)
         m_bMoving = false;
     }
 }
+
