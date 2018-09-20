@@ -109,6 +109,7 @@
     "border: none;"\
     "border-top: 1px solid #CCCCCC;"\
     "border-right: 1px solid #CCCCCC;"\
+    "outline: solid 1px gray;"\
 "}"\
 "QTableView::item {"\
     "selection-background-color: white;"\
@@ -120,6 +121,9 @@
 "QTableView::item:hover {"\
     "background-color: #BEE6FD;"\
     "color: white;"\
+"}"\
+"QTableView::item:focus {"\
+    "background-color: #BEE6FD;"\
 "}"\
 "QLineEdit {"\
     "border: none;"\

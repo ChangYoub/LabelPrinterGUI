@@ -9,10 +9,10 @@
 
 #define VER_DIALOG_TITLE_TEXT       "버전정보"
 #define VER_DIALOG_MSG_TITLE        "Zebera Printer Support Software.\n"\
-                                    "Version 0.0.1"
+                                    "Version 0.0.2"
 #define VER_DIALOG_MSG              "Copyright © 2018 Layer System Co., Ltd\n"\
                                     "All Rights Reserved.\n"\
-                                    "Build info Qt 5.8.0 MinGW 32bit GPL linces.\n"\
+                                    "Build info Qt 5.8.0 MinGW 32bit GPL license.\n"\
                                     "Program by Chang Youb Lim\n"\
                                     "Technical support Email Kerberos1057@gmail.com"
 

@@ -67,7 +67,7 @@ void Worksheet::setTableLayout(void)
     m_pLabelTable->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_pLabelTable->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_pLabelTable->setSelectionMode(QAbstractItemView::SingleSelection);
-    m_pLabelTable->setFocusPolicy(Qt::NoFocus);
+    m_pLabelTable->setFocusPolicy(Qt::StrongFocus);
     m_pLabelTable->setTextElideMode(Qt::ElideNone);
     m_pLabelTable->setWordWrap(false);
     m_pLabelTable->setShowGrid(false);
@@ -157,7 +157,12 @@ void Worksheet::setTable(const QString stNumber,   const QString strCode,
     QTableWidgetItem *titleText0 = new QTableWidgetItem();
     m_pLabelTable->setItem(0, 0, titleText0);
     titleText0->setFont(font);
-    titleText0->setFlags(Qt::ItemIsEditable);
+    titleText0->setFlags(Qt::ItemIsEditable);    
+
+    QTableWidgetItem *spanCell0 = new QTableWidgetItem();
+    m_pLabelTable->setItem(0, 1, spanCell0);
+    spanCell0->setFont(font);
+    spanCell0->setFlags(Qt::ItemIsEditable);
 
     QTableWidgetItem *itemText1 = new QTableWidgetItem();
     m_pLabelTable->setItem(0, 2, itemText1);
@@ -169,6 +174,11 @@ void Worksheet::setTable(const QString stNumber,   const QString strCode,
     titleText1->setFont(font);
     titleText1->setFlags(Qt::ItemIsEditable);
 
+    QTableWidgetItem *spanCell1 = new QTableWidgetItem();
+    m_pLabelTable->setItem(1, 1, spanCell1);
+    spanCell1->setFont(font);
+    spanCell1->setFlags(Qt::ItemIsEditable);
+
     QTableWidgetItem *itemText2 = new QTableWidgetItem();
     m_pLabelTable->setItem(1, 2, itemText2);
     itemText2->setFont(font);
@@ -179,6 +189,11 @@ void Worksheet::setTable(const QString stNumber,   const QString strCode,
     titleText2->setFont(font);
     titleText2->setFlags(Qt::ItemIsEditable);
 
+    QTableWidgetItem *spanCell2 = new QTableWidgetItem();
+    m_pLabelTable->setItem(2, 1, spanCell2);
+    spanCell2->setFont(font);
+    spanCell2->setFlags(Qt::ItemIsEditable);
+
     QTableWidgetItem *itemText3 = new QTableWidgetItem();
     m_pLabelTable->setItem(2, 2, itemText3);
     itemText3->setFont(font);
@@ -188,6 +203,11 @@ void Worksheet::setTable(const QString stNumber,   const QString strCode,
     m_pLabelTable->setItem(3, 0, titleText3);
     titleText3->setFont(font);
     titleText3->setFlags(Qt::ItemIsEditable);
+
+    QTableWidgetItem *spanCell3 = new QTableWidgetItem();
+    m_pLabelTable->setItem(3, 1, spanCell3);
+    spanCell3->setFont(font);
+    spanCell3->setFlags(Qt::ItemIsEditable);
 
     QTableWidgetItem *itemText4 = new QTableWidgetItem();
     m_pLabelTable->setItem(3, 2, itemText4);
@@ -301,5 +321,12 @@ void Worksheet::keyPressEvent(QKeyEvent *event)
     {
         clearTableFocus();
         m_pPrinterBtn->click();
+    }
+    else if(event->key() == Qt::Key_Tab)
+    {
+        if(m_pLabelTable->currentRow() == 4 &&
+           m_pLabelTable->currentColumn() == 3) {
+            m_pLabelTable->setCurrentCell(0, 2);
+        }
     }
 }
