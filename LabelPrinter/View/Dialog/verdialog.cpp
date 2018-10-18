@@ -82,8 +82,14 @@ void VerDialog::setWorkSheet(void)
 
 void VerDialog::keyPressEvent(QKeyEvent *event)
 {
-    if(event->key() == Qt::Key_Escape) {
-        this->close();
+    switch(event->key())
+    {
+        case Qt::Key_Return:
+        case Qt::Key_Enter:
+        case Qt::Key_Space:
+        case Qt::Key_Escape:
+            this->close();
+            break;
     }
 }
 

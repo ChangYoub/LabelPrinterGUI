@@ -19,6 +19,8 @@
 #include <QMenuBar>
 #include <QGraphicsOpacityEffect>
 
+#include <QDebug>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
@@ -32,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
     /* 메인 스텍위젯 설정 */
     m_pStackWidget = new QStackedWidget(this);
     m_worksheet = new Worksheet;
+    m_worksheet->setFocus();
     m_pStackWidget->setGeometry(this->x(), (SYSTEM_BAR_HEIGHT+MENU_BAR_HEIGHT), this->width(), this->height() - (SYSTEM_BAR_HEIGHT+MENU_BAR_HEIGHT));
     m_pStackWidget->addWidget(m_worksheet);
     m_pStackWidget->setStyleSheet(STACK_WIDGET_QSS);
@@ -211,7 +214,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     if(event->modifiers() == Qt::ControlModifier && event->key() == Qt::Key_P)
     {
         m_worksheet->m_pPrinterBtn->click();
-    }
+    }    
 }
 
 /*!

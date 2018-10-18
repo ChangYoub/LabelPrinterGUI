@@ -13,6 +13,8 @@
 #include <QLabel>
 #include <QMainWindow>
 
+#include <QDebug>
+
 Worksheet::Worksheet(QWidget *parent):QWidget(parent)
 {
     QString strList[INPUT_COLUMN_MAX];
@@ -27,7 +29,7 @@ Worksheet::Worksheet(QWidget *parent):QWidget(parent)
     }
     setTable(strList[0], strList[1], strList[2], strList[3], strList[4], strList[5]);
 
-    m_pSuccessDialog = new SuccessDialog(this);
+    m_pSuccessDialog = new SuccessDialog(this);    
 }
 
 void Worksheet::setBtnLayout(void)
@@ -146,6 +148,9 @@ void Worksheet::setTableLayout(void)
     pVLayout->addWidget(m_pLabelTable, 0, Qt::AlignCenter);
     pVLayout->addWidget(tipText, 0, Qt::AlignCenter);
     m_tableArea->setLayout(pVLayout);
+
+    m_pLabelTable->setFocus();
+    m_pLabelTable->setCurrentCell(0, 2);
 }
 
 void Worksheet::setTable(const QString stNumber,   const QString strCode,
@@ -167,7 +172,7 @@ void Worksheet::setTable(const QString stNumber,   const QString strCode,
     QTableWidgetItem *itemText1 = new QTableWidgetItem();
     m_pLabelTable->setItem(0, 2, itemText1);
     itemText1->setFont(font);
-    itemText1->setText(stNumber);
+    itemText1->setText(stNumber);    
 
     QTableWidgetItem *titleText1 = new QTableWidgetItem();
     m_pLabelTable->setItem(1, 0, titleText1);
@@ -328,5 +333,5 @@ void Worksheet::keyPressEvent(QKeyEvent *event)
            m_pLabelTable->currentColumn() == 3) {
             m_pLabelTable->setCurrentCell(0, 2);
         }
-    }
+    }    
 }
